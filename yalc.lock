@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "@nevermined-io/payments": {
+      "version": "0.5.3",
+      "signature": "d54e6a037e50a6a1bbd27c1be4ec4050"
+    }
+  }
+}

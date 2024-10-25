@@ -7,8 +7,8 @@ const SUBSCRIBER_NVM_API_KEY = process.env.SUBSCRIBER_NVM_API_KEY
 const PLAN_DID = process.env.PLAN_DID!
 const AGENT_DID = process.env.AGENT_DID!
 
-const SLEEP_INTERVAL = 2_000
-const MAX_RETRIES = 50
+const SLEEP_INTERVAL = 10_000
+const MAX_RETRIES = 10
 
 const logger = pino({
   transport: { target: 'pino-pretty' },
