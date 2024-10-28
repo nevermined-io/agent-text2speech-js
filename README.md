@@ -80,6 +80,9 @@ The agent can be configured using environment variables. The following variables
 - `PLAN_DID`: The DID of the Text2Speech plan.
 - `AGENT_DID`: The DID of the Text2Speech agent.
 - `OPEN_API_KEY`: The OpenAI Key used by the Agent. This is necessary by the Text2Speech agent to generate the audio file
+- `IPFS_GATEWAY`: The IPFS Gateway used by the agent to store the audio files. By default: https://ipfs.infura.io:5001
+- `IPFS_PROJECT_ID`: The IPFS Project ID
+- `IPFS_PROJECT_SECRET`: The IPFS Project Secret
 
 ## License
 

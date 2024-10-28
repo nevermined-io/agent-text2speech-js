@@ -1,6 +1,5 @@
 import { AgentExecutionStatus, Payments, sleep } from '@nevermined-io/payments'
-import pino from 'pino'
-import { getPaymentsInstance } from './utils'
+import { getLogger, getPaymentsInstance } from './utils'
 
 const NVM_ENVIRONMENT = process.env.NVM_ENVIRONMENT || 'testing'
 const SUBSCRIBER_NVM_API_KEY = process.env.SUBSCRIBER_NVM_API_KEY
@@ -10,10 +9,8 @@ const AGENT_DID = process.env.AGENT_DID!
 const SLEEP_INTERVAL = 10_000
 const MAX_RETRIES = 10
 
-const logger = pino({
-  transport: { target: 'pino-pretty' },
-  level: 'info'
-})
+const logger = getLogger()
+
 
 let payments: Payments
 let inputParam: string

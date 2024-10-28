@@ -1,6 +1,5 @@
 import { AgentExecutionStatus, Payments } from '@nevermined-io/payments'
-import pino from 'pino'
-import { getPaymentsInstance } from './utils'
+import { getLogger, getPaymentsInstance, uploadSpeechFileToIPFS } from './utils'
 import { OpenAITools } from './opeai.tools'
 
 const NVM_ENVIRONMENT = process.env.NVM_ENVIRONMENT || 'testing'
@@ -8,10 +7,8 @@ const NVM_API_KEY = process.env.NVM_API_KEY
 const AGENT_DID = process.env.AGENT_DID!
 const OPEN_API_KEY = process.env.OPEN_API_KEY!
 
-const logger = pino({
-  transport: { target: 'pino-pretty' },
-  level: 'info'
-})
+const logger = getLogger()
+
 
 const opts = {
   joinAccountRoom: false,
@@ -39,6 +36,9 @@ async function processSteps(data: any) {
   logger.info(`Generating Speech from input query`)
   const fileSpeech = await openaiTools.text2speech(step.input_query)
   logger.info(`Speech file generated: ${fileSpeech}`)
+  const cid = await uploadSpeechFileToIPFS(fileSpeech)
+  logger.info(`Speech file uploaded to IPFS: ${cid}`)
+
 
   const updateResult = await payments.query.updateStep(step.did, {
     ...step,
@@ -46,7 +46,7 @@ async function processSteps(data: any) {
     is_last: true,
     output: 'hey baby, we got this!',
     output_additional: '{"result": "success"}',
-    output_artifacts: [fileSpeech],
+    output_artifacts: [cid],
     cost: 5
   })
   if (updateResult.status === 201)

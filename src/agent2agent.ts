@@ -1,6 +1,5 @@
 import { AgentExecutionStatus, generateStepId, Payments, sleep } from '@nevermined-io/payments'
-import pino from 'pino'
-import { getPaymentsInstance } from './utils'
+import { getLogger, getPaymentsInstance, uploadSpeechFileToIPFS } from './utils'
 import { OpenAITools } from './opeai.tools'
 
 const NVM_ENVIRONMENT = process.env.NVM_ENVIRONMENT || 'testing'
@@ -14,10 +13,7 @@ const PLAN_YOUTUBE_DID = process.env.PLAN_YOUTUBE_DID || 'did:nv:c0eb8f62687d4d7
 const SLEEP_INTERVAL = 7_000
 const MAX_RETRIES = 10
 
-const logger = pino({
-  transport: { target: 'pino-pretty' },
-  level: 'info'
-})
+const logger = getLogger()
 
 const opts = {
   joinAccountRoom: false,
@@ -155,14 +151,16 @@ async function processSteps(data: any) {
     logger.info(`Converting text to audio ...`)
     const fileSpeech = await openaiTools.text2speech(step.input_query)
     logger.info(`Speech file generated: ${fileSpeech}`)
-
+    const cid = await uploadSpeechFileToIPFS(fileSpeech)
+    logger.info(`Speech file uploaded to IPFS: ${cid}`)
+    
     const updateResult = await payments.query.updateStep(step.did, {
       ...step,
       step_status: AgentExecutionStatus.Completed,
       is_last: true,
       output: 'hey baby, we got this!',
       output_additional: '{"result": "success"}',
-      output_artifacts: [fileSpeech],
+      output_artifacts: [cid],
       cost: 5
     })
 

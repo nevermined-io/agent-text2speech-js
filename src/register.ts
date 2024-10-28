@@ -1,15 +1,12 @@
 import { Payments } from '@nevermined-io/payments'
-import pino from 'pino'
-import { getPaymentsInstance } from './utils'
+import { getLogger, getPaymentsInstance } from './utils'
 
 const NVM_ENVIRONMENT = process.env.NVM_ENVIRONMENT || 'testing'
 const NVM_API_KEY = process.env.NVM_API_KEY
 const PLAN_DID = process.env.PLAN_DID!
 
-const logger = pino({
-  transport: { target: 'pino-pretty' },
-  level: 'info'
-})
+const logger = getLogger()
+
 
 let payments: Payments
 

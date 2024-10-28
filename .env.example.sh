@@ -17,3 +17,8 @@ export AGENT_DID="did:nv:3b54498f1acd89a6d763d83a2719f9d02d051a210ecd2f3bf78ef09
 ## The OpenAI Key used by the Agent. 
 ## This is necessary by the Text2Speech agent to generate the audio file
 export OPEN_API_KEY="sk-"
+
+## The IPFS configuration to upload generated audio files after their generation
+export IPFS_GATEWAY="https://ipfs.infura.io:5001"
+export IPFS_PROJECT_ID="...."
+export IPFS_PROJECT_SECRET="....."

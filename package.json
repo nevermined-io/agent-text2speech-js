@@ -21,6 +21,7 @@
   "dependencies": {
     "@nevermined-io/payments": "0.6.0",
     "openai": "4.68.4",
+    "ipfs-http-client-lite": "0.3.0",
     "pino": "^8.15.4",
     "pino-pretty": "^11.2.2"
   },
