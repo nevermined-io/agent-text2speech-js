@@ -12,4 +12,4 @@ COPY src ./src
 RUN yarn 
 RUN yarn build
 
-ENTRYPOINT [ "yarn", "run", "start:main" ]
+ENTRYPOINT [ "yarn", "run", "start:agent2agent" ]
