@@ -7,8 +7,8 @@ const NVM_API_KEY = process.env.NVM_API_KEY
 const AGENT_DID = process.env.AGENT_DID!
 const OPEN_API_KEY = process.env.OPEN_API_KEY!
 
-const AGENT_YOUTUBE_DID = process.env.AGENT_YOUTUBE || 'did:nv:7d86045034ea8a14c133c487374a175c56a9c6144f6395581435bc7f1dc9e0cc'
-const PLAN_YOUTUBE_DID = process.env.PLAN_YOUTUBE_DID || 'did:nv:c0eb8f62687d4d734de446cef07529d093ffc145455afb2c7791fca6026abc48'
+const AGENT_YOUTUBE_DID = process.env.AGENT_YOUTUBE_DID || 'did:nv:268cc4cb5d9d6531f25b9e750b6aa4d96cc5a514116e3afcf41fe4ca0a27dad0'
+const PLAN_YOUTUBE_DID = process.env.PLAN_YOUTUBE_DID || 'did:nv:f44abbb4f7dfaf752e059e018377f6fa1ba30df7b8e53b627d272682306e660a'
 
 const SLEEP_INTERVAL = 7_000
 const MAX_RETRIES = 10

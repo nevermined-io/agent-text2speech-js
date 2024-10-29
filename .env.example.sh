@@ -14,6 +14,11 @@ export PLAN_DID="did:nv:0847b237d6e6d238850440f72e88b3a719542a8ba73ecfa03bda2050
 ## The Text2Speech Agent DID
 export AGENT_DID="did:nv:3b54498f1acd89a6d763d83a2719f9d02d051a210ecd2f3bf78ef09997819701"
 
+# The DIDs of the Youtube Agent and Plan. The agent2agent use them to order the subscription
+export AGENT_YOUTUBE_DID="did:nv:268cc4cb5d9d6531f25b9e750b6aa4d96cc5a514116e3afcf41fe4ca0a27dad0"
+export PLAN_YOUTUBE_DID="did:nv:f44abbb4f7dfaf752e059e018377f6fa1ba30df7b8e53b627d272682306e660a"
+
+
 ## The OpenAI Key used by the Agent. 
 ## This is necessary by the Text2Speech agent to generate the audio file
 export OPEN_API_KEY="sk-"
