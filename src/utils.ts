@@ -1,6 +1,7 @@
 import pino from 'pino'
 import { EnvironmentName, Payments } from '@nevermined-io/payments'
 import IpfsHelper from './ipfs.helper'
+import { readFileSync } from 'fs'
 
 const logger = pino({
   transport: { target: 'pino-pretty' },
@@ -29,7 +30,8 @@ export function getPaymentsInstance(nvmApiKey: string, env: string) {
 
 export async function uploadSpeechFileToIPFS(filePath: string) {
   logger.info(`Uploading file to IPFS: ${filePath}`)
-  const hash = await IpfsHelper.add(filePath)
+  const buffer = readFileSync(filePath)  
+  const hash = await IpfsHelper.add(buffer)
   return `cid://${hash}`    
 }
 

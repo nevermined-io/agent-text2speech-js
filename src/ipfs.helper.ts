@@ -33,6 +33,7 @@ export default class IpfsHelper {
         headers: { Authorization: `Basic ${authToken}` }
       })
     })
+    
     const addResult = await ipfs.add(content)
     return addResult[0].hash
   }
