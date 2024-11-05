@@ -1,6 +1,7 @@
 import { AgentExecutionStatus, generateStepId, Payments, sleep } from '@nevermined-io/payments'
 import { getLogger, getPaymentsInstance, uploadSpeechFileToIPFS } from './utils'
 import { OpenAITools } from './opeai.tools'
+import IpfsHelper from './ipfs.helper'
 
 const NVM_ENVIRONMENT = process.env.NVM_ENVIRONMENT || 'testing'
 const NVM_API_KEY = process.env.NVM_API_KEY
@@ -43,19 +44,15 @@ async function processSteps(data: any) {
     const createResult = await payments.query.createSteps(step.did, step.task_id, { steps: [{
         step_id: transcribeStepId,
         task_id: step.task_id,
-        predecessor: step.step_id,
-        input_query: step.input_query,        
+        predecessor: step.step_id,        
         name: 'transcribe',
         is_last: false,
-        order: 2
       }, {  
         step_id: generateStepId(),              
         task_id: step.task_id,
-        predecessor: transcribeStepId,        
-        input_query: '',
+        predecessor: transcribeStepId,                
         name: 'text2speech',
-        is_last: true,
-        order: 3
+        is_last: true        
     }]})
     createResult.status === 201 ? logger.info('Steps created successfully') : logger.error(`Error creating steps: ${JSON.stringify(createResult.data)}`)      
 
@@ -132,7 +129,7 @@ async function processSteps(data: any) {
         ...step,
         step_status: AgentExecutionStatus.Failed,
         is_last: true,
-        output: 'Task not completed in time '
+        output: 'Task not completed in time. Please try again later.',
       })
     } else {
       updateResult = await payments.query.updateStep(step.did, {
@@ -158,9 +155,9 @@ async function processSteps(data: any) {
       ...step,
       step_status: AgentExecutionStatus.Completed,
       is_last: true,
-      output: 'hey baby, we got this!',
-      output_additional: '{"result": "success"}',
-      output_artifacts: [cid],
+      output: `Text converted to audio: ${cid}`,
+      output_additional: 'success',
+      output_artifacts: [IpfsHelper.cidToUrl(cid)],
       cost: 5
     })
 
@@ -171,8 +168,6 @@ async function processSteps(data: any) {
     return    
   }
 
-
-  
 }
 
 
@@ -180,8 +175,6 @@ async function main() {
   openaiTools = new OpenAITools(OPEN_API_KEY!)
   payments = getPaymentsInstance(NVM_API_KEY!, NVM_ENVIRONMENT)
   logger.info(`Connected to Nevermined Network: ${NVM_ENVIRONMENT}`)  
-
-
 
   await payments.query.subscribe(processSteps, opts)
 }

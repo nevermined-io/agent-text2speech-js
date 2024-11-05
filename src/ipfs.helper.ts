@@ -6,6 +6,7 @@ const IpfsHttpClientLite = require('ipfs-http-client-lite')
 const IPFS_GATEWAY = process.env.IPFS_GATEWAY || 'https://ipfs.infura.io:5001'
 const IPFS_PROJECT_ID = process.env.IPFS_PROJECT_ID
 const IPFS_PROJECT_SECRET = process.env.IPFS_PROJECT_SECRET
+const IPFS_PUBLIC_GATEWAY = process.env.IPFS_PUBLIC_GATEWAY || 'https://ipfs.io/ipfs/{CID}'
 
 const logger = pino({
   transport: { target: 'pino-pretty' },
@@ -14,6 +15,15 @@ const logger = pino({
 
 export default class IpfsHelper {
   private static authToken: string
+
+  /**
+   * Given a CID, returns the URL to access the content
+   * @param cid - The CID of the content
+   * @returns the public url to access the content
+   */
+  public static cidToUrl(cid: string): string {
+    return IPFS_PUBLIC_GATEWAY.replace('{CID}', cid.replace('cid://', ''))
+  }
 
   public static async add(content: any): Promise<string> {
     const authToken = this.getAuthToken()

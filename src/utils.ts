@@ -32,3 +32,4 @@ export async function uploadSpeechFileToIPFS(filePath: string) {
   const hash = await IpfsHelper.add(filePath)
   return `cid://${hash}`    
 }
+

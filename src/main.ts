@@ -1,6 +1,7 @@
 import { AgentExecutionStatus, Payments } from '@nevermined-io/payments'
 import { getLogger, getPaymentsInstance, uploadSpeechFileToIPFS } from './utils'
 import { OpenAITools } from './opeai.tools'
+import IpfsHelper from './ipfs.helper'
 
 const NVM_ENVIRONMENT = process.env.NVM_ENVIRONMENT || 'testing'
 const NVM_API_KEY = process.env.NVM_API_KEY
@@ -37,16 +38,16 @@ async function processSteps(data: any) {
   const fileSpeech = await openaiTools.text2speech(step.input_query)
   logger.info(`Speech file generated: ${fileSpeech}`)
   const cid = await uploadSpeechFileToIPFS(fileSpeech)
-  logger.info(`Speech file uploaded to IPFS: ${cid}`)
+  const assetUrl = IpfsHelper.cidToUrl(cid)
+  logger.info(`Speech file uploaded to IPFS: ${cid} - ${assetUrl}`)
 
 
   const updateResult = await payments.query.updateStep(step.did, {
     ...step,
     step_status: AgentExecutionStatus.Completed,
     is_last: true,
-    output: 'hey baby, we got this!',
-    output_additional: '{"result": "success"}',
-    output_artifacts: [cid],
+    output: 'success',    
+    output_artifacts: [assetUrl],
     cost: 5
   })
   if (updateResult.status === 201)
@@ -61,15 +62,13 @@ async function main() {
   payments = getPaymentsInstance(NVM_API_KEY!, NVM_ENVIRONMENT)
   logger.info(`Connected to Nevermined Network: ${NVM_ENVIRONMENT}`)  
 
-
-
   await payments.query.subscribe(processSteps, opts)
 }
 
 
 
 
-logger.info('Starting AI Agent Processor...')
+logger.info('Starting AI Text2Speech Agent...')
 
 main().then(() => {
   logger.info('Waiting for events!')
