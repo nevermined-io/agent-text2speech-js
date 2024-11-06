@@ -138,7 +138,7 @@ async function processSteps(data: any) {
         output: fullTask.output,
         output_additional: fullTask.output_additional,
         output_artifacts: fullTask.output_artifacts,
-        cost: fullTask.cost
+        cost: Number(fullTask.cost) + 5
       })
     }    
 
@@ -158,7 +158,7 @@ async function processSteps(data: any) {
       output: `Text converted to audio: ${cid}`,
       output_additional: 'success',
       output_artifacts: [IpfsHelper.cidToUrl(cid)],
-      cost: 5
+      cost: 20
     })
 
     updateResult.status === 201 ? logger.info(`Step ${step.name} : ${step.step_id} completed!`) : logger.error(`Error updating step ${step.step_id} - ${JSON.stringify(updateResult.data)}`)
