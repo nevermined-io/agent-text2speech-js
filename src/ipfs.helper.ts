@@ -1,4 +1,4 @@
-import pino from "pino"
+import pino from 'pino'
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 const IpfsHttpClientLite = require('ipfs-http-client-lite')
@@ -10,7 +10,7 @@ const IPFS_PUBLIC_GATEWAY = process.env.IPFS_PUBLIC_GATEWAY || 'https://ipfs.io/
 
 const logger = pino({
   transport: { target: 'pino-pretty' },
-  level: 'info'
+  level: 'info',
 })
 
 export default class IpfsHelper {
@@ -30,10 +30,10 @@ export default class IpfsHelper {
     const ipfs = IpfsHttpClientLite({
       apiUrl: IPFS_GATEWAY,
       ...(authToken && {
-        headers: { Authorization: `Basic ${authToken}` }
-      })
+        headers: { Authorization: `Basic ${authToken}` },
+      }),
     })
-    
+
     const addResult = await ipfs.add(content)
     return addResult[0].hash
   }
@@ -44,16 +44,14 @@ export default class IpfsHelper {
     const options = {
       method: 'POST',
       ...(authToken && {
-        headers: { Authorization: `Basic ${authToken}` }
-      })
+        headers: { Authorization: `Basic ${authToken}` },
+      }),
     }
 
     return fetch(url, options)
       .then(async (res) => {
         if (!res.ok) {
-          throw new Error(
-            `${res.status}: ${res.statusText} - ${await res.text()}`
-          )
+          throw new Error(`${res.status}: ${res.statusText} - ${await res.text()}`)
         }
         return res.text()
       })
@@ -65,12 +63,12 @@ export default class IpfsHelper {
   private static getAuthToken(): string | undefined {
     if (!this.authToken) {
       if (!IPFS_PROJECT_ID || !IPFS_PROJECT_SECRET) {
-        logger.warn(`WARNING: Infura IPFS_PROJECT_ID and IPFS_PROJECT_SECRET are not set - disabling ipfs auth`)
+        logger.warn(
+          `WARNING: Infura IPFS_PROJECT_ID and IPFS_PROJECT_SECRET are not set - disabling ipfs auth`,
+        )
         return
       } else {
-        this.authToken = Buffer.from(
-          `${IPFS_PROJECT_ID}:${IPFS_PROJECT_SECRET}`
-        ).toString('base64')
+        this.authToken = Buffer.from(`${IPFS_PROJECT_ID}:${IPFS_PROJECT_SECRET}`).toString('base64')
       }
     }
     return this.authToken

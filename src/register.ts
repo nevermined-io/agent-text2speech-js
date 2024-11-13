@@ -7,13 +7,12 @@ const PLAN_DID = process.env.PLAN_DID!
 
 const logger = getLogger()
 
-
 let payments: Payments
 
 async function main() {
   logger.info('Registering agent...')
   payments = getPaymentsInstance(NVM_API_KEY!, NVM_ENVIRONMENT)
-  logger.info(`Connected to Nevermined Network: ${NVM_ENVIRONMENT}`) 
+  logger.info(`Connected to Nevermined Network: ${NVM_ENVIRONMENT}`)
 
   // const ENDPOINTS: Endpoint[] = [
   //   { 'POST': `https://one-backend.${NVM_ENVIRONMENT}.nevermined.app/api/v1/agents/(.*)/tasks` },
@@ -22,10 +21,10 @@ async function main() {
   // const agentDID = await payments.createService({
   //   planDID: PLAN_DID!,
   //   name: 'Text to Speech AI Agent',
-  //   description: 'This agent receives a text in the input and returns an audio file with the text read by a voice.', 
+  //   description: 'This agent receives a text in the input and returns an audio file with the text read by a voice.',
   //   serviceType: 'agent',
   //   serviceChargeType: 'dynamic',
-  //   authType: 'none',    
+  //   authType: 'none',
   //   amountOfCredits: 1,
   //   minCreditsToCharge: 1,
   //   maxCreditsToCharge: 10,
@@ -36,9 +35,9 @@ async function main() {
   const agentDID = await payments.createAgent({
     planDID: PLAN_DID,
     name: 'E2E Payments Agent',
-    description: 'description',         
+    description: 'description',
     serviceChargeType: 'fixed',
-    amountOfCredits: 1,            
+    amountOfCredits: 1,
     usesAIHub: true,
   })
 
