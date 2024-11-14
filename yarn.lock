@@ -105,10 +105,10 @@
   resolved "https://registry.yarnpkg.com/@microsoft/tsdoc/-/tsdoc-0.14.2.tgz#c3ec604a0b54b9a9b87e9735dfc59e1a5da6a5fb"
   integrity sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==
 
-"@nevermined-io/payments@0.7.1":
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/@nevermined-io/payments/-/payments-0.7.1.tgz#671be84aa106c9a7ea99f1d85b4f7ae3a88e3a08"
-  integrity sha512-6zWJ79FqLigQ4953qim3HGe7wJlQyLB2acLQvYX9VdawBKBneULTh5LQ6H+xdmL/cNL4fz4wgtD9p6Mwb3l3vQ==
+"@nevermined-io/payments@0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@nevermined-io/payments/-/payments-0.7.2.tgz#0237e91545a1dd9befe7d1be80e51cb0923b5937"
+  integrity sha512-ORcAsZNCMR8JGS7gCT/z+SXXZBiVsVX/Atk5wu6gePKJW+UiOzH6DW6O1r2WeivKxiV9r6cs/mLdl6zQa90sIQ==
   dependencies:
     axios "^1.7.7"
     jose "^5.2.4"
