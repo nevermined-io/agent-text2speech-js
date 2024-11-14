@@ -88,7 +88,7 @@ async function main() {
   //   counter++
   //   await sleep(SLEEP_INTERVAL)
   // }
-  await sleep(30_000)
+  await sleep(60_000)
   logger.error('Task not completed in time')
   process.exit(1)
 
