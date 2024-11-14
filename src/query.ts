@@ -6,9 +6,6 @@ const SUBSCRIBER_NVM_API_KEY = process.env.SUBSCRIBER_NVM_API_KEY
 const PLAN_DID = process.env.PLAN_DID!
 const AGENT_DID = process.env.AGENT_DID!
 
-// const SLEEP_INTERVAL = 10_000
-// const MAX_RETRIES = 10
-
 const logger = getLogger()
 
 let payments: Payments
@@ -58,44 +55,10 @@ async function main() {
   }
   logger.info(`Task [${taskResult.data.task.task_id}] created: ${taskResult.data.task.input_query}`)
 
-  // const taskId = taskResult.data.task.task_id
-  // const did = taskResult.data.task.did
-
-  // let resultFound = false
-  // let counter = 1
-  // while (counter <= MAX_RETRIES) {
-  //   logger.info(`Checking task status for task ID [${counter}]: ${taskId}`)
-  //   const fullTaskResult = await payments.query.getTaskWithSteps(did, taskId, accessConfig)
-
-  //   if (fullTaskResult.status !== 200) {
-  //     logger.error(`Failed to get task: ${fullTaskResult.data}`)
-  //     process.exit(1)
-  //   }
-  //   const fullTask = fullTaskResult.data.task
-
-  //   logger.info(`Task status: ${JSON.stringify(fullTask.task_status)}`)
-  //   if (fullTask.task_status === AgentExecutionStatus.Completed) {
-  //     logger.info(`Task completed with cost: ${fullTask.cost}`)
-  //     logger.info(`  Output: ${fullTask.output}`)
-  //     logger.debug(` Returned Headers: ${JSON.stringify(fullTaskResult.headers)}`)
-  //     logger.info(JSON.stringify(fullTaskResult.data))
-  //     resultFound = true
-  //     break
-  //   } else if (fullTask.task_status === AgentExecutionStatus.Failed) {
-  //     logger.error(`Task failed with message ${fullTask.output}`)
-  //     break
-  //   }
-  //   counter++
-  //   await sleep(SLEEP_INTERVAL)
-  // }
   await sleep(60_000)
   logger.error('Task not completed in time')
   process.exit(1)
 
-  // if (!resultFound) {
-  //   logger.error('Task not completed in time')
-  //   process.exit(1)
-  // }
 }
 
 async function taskLog(data: any) {

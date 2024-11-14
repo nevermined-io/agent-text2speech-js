@@ -22,8 +22,6 @@ const PLAN_YOUTUBE_DID =
   'did:nv:f44abbb4f7dfaf752e059e018377f6fa1ba30df7b8e53b627d272682306e660a'
 
 const WAIT_BEFORE_ENDS = 30_000
-// const SLEEP_INTERVAL = 7_000
-// const MAX_RETRIES = 10
 
 const logger = getLogger()
 
@@ -251,8 +249,7 @@ async function validateExternalYoutubeSummarizerTask(taskId: string, parentStep:
     accessConfig,
   )
 
-  const youtubeData = youtubeTaskResult.data
-  // console.log(JSON.stringify(youtubeData))
+  const youtubeData = youtubeTaskResult.data  
 
   if (youtubeData.task.task_status === AgentExecutionStatus.Completed) {
     logMessage({
