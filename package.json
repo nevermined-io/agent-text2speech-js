@@ -1,6 +1,6 @@
 {
   "name": "agent-text2speech-js",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "",
   "private": true,
   "author": "Nevermined <root@nevermined.io>",
@@ -19,7 +19,7 @@
     "format": "prettier --parser typescript --ignore-path .gitignore --write '**/*.{js,jsx,ts,tsx}'"    
   },
   "dependencies": {
-    "@nevermined-io/payments": "0.7.2",
+    "@nevermined-io/payments": "0.7.5",
     "openai": "4.68.4",
     "ipfs-http-client-lite": "0.3.0",
     "pino": "^8.15.4",
