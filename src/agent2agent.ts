@@ -2,7 +2,6 @@ import {
   AgentExecutionStatus,
   generateStepId,
   Payments,
-  sleep,
   TaskLogMessage,
 } from '@nevermined-io/payments'
 import { getLogger, getPaymentsInstance, uploadSpeechFileToIPFS } from './utils'
@@ -20,8 +19,6 @@ const AGENT_YOUTUBE_DID =
 const PLAN_YOUTUBE_DID =
   process.env.PLAN_YOUTUBE_DID ||
   'did:nv:f44abbb4f7dfaf752e059e018377f6fa1ba30df7b8e53b627d272682306e660a'
-
-const WAIT_BEFORE_ENDS = 30_000
 
 const logger = getLogger()
 
@@ -183,8 +180,6 @@ async function processSteps(data: any) {
     })
     logMessage({ task_id: step.task_id, level: 'debug', message: JSON.stringify(taskResult.data) })
 
-    await sleep(WAIT_BEFORE_ENDS)
-    await validateExternalYoutubeSummarizerTask(taskResult.data.task.task_id, step)
   } else if (step.name === 'text2speech') {
     logMessage({
       task_id: step.task_id,
@@ -311,6 +306,10 @@ logger.info('Starting Youtube2Speech AI Agent...')
 main()
   .then(() => {
     logger.info('Waiting for events!')
+    logger.info('mv', NVM_ENVIRONMENT)
+    logger.info(NVM_API_KEY)
+    logger.info(AGENT_DID)
+    logger.info(OPEN_API_KEY)
   })
   .catch(() => {
     logger.info('Shutting down AI Agent Processor...')
