@@ -306,10 +306,6 @@ logger.info('Starting Youtube2Speech AI Agent...')
 main()
   .then(() => {
     logger.info('Waiting for events!')
-    logger.info('mv', NVM_ENVIRONMENT)
-    logger.info(NVM_API_KEY)
-    logger.info(AGENT_DID)
-    logger.info(OPEN_API_KEY)
   })
   .catch(() => {
     logger.info('Shutting down AI Agent Processor...')
