@@ -38,7 +38,7 @@ async function processSteps(data: any) {
     level: 'info',
     message: `Generating Speech from input query`,
   })
-  const fileSpeech = await openaiTools.text2speech(step.input_query!)
+  const fileSpeech = await openaiTools.text2speech(step.input_query)
 
   logMessage({
     task_id: step.task_id,
@@ -55,16 +55,15 @@ async function processSteps(data: any) {
     message: `Speech file uploaded to IPFS: ${cid} - ${assetUrl}`,
   })
 
-  const updateResult = await payments.query.updateStep(step.did!, {
+  const updateResult = await payments.query.updateStep(step.did, {
     ...step,
     step_status: AgentExecutionStatus.Completed,
     is_last: true,
     output: 'success',
-    output_additional: {},
-    output_artifacts: [{ artifact_id: cid, url: assetUrl }],
+    output_artifacts: [assetUrl],
     cost: 5,
   })
-  if (updateResult.success)
+  if (updateResult.status === 201)
     logMessage({
       task_status: AgentExecutionStatus.Completed,
       task_id: step.task_id,
