@@ -53,7 +53,7 @@ async function main() {
     logger.error(`Failed to create task: ${JSON.stringify(taskResult)}`)
     process.exit(1)
   }
-  logger.info(`Task [${taskResult.task.task_id}] created: ${taskResult.task.input_query}`)
+  logger.info(`Task [${taskResult.data?.task.task_id}] created: ${taskResult.data?.task.input_query}`)
 
   await sleep(60_000)
   logger.error('Task not completed in time')
