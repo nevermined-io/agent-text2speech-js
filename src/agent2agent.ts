@@ -55,7 +55,7 @@ async function processSteps(data: any) {
       message: `Setting up steps necessary to resolve agent ...`,
     })
     const transcribeStepId = generateStepId()
-    const createResult = await payments.query.createSteps(step.did, step.task_id, {
+    const createResult = await payments.query.createSteps(step.did!, step.task_id, {
       steps: [
         {
           step_id: transcribeStepId,
@@ -73,7 +73,7 @@ async function processSteps(data: any) {
         },
       ],
     })
-    createResult.status === 201
+    createResult.success
       ? logMessage({ task_id: step.task_id, level: 'info', message: 'Steps created successfully' })
       : logMessage({
           task_id: step.task_id,
@@ -86,7 +86,7 @@ async function processSteps(data: any) {
       step_status: AgentExecutionStatus.Completed,
       output: step.input_query,
     })
-    updateResult.status === 201
+    updateResult.success
       ? logMessage({
           task_id: step.task_id,
           level: 'info',
@@ -121,10 +121,10 @@ async function processSteps(data: any) {
     }
 
     const aiTask = {
-      query: step.input_query,
+      input_query: step.input_query,
       name: 'transcribe',
-      additional_params: [],
-      artifacts: [],
+      input_additional: {},
+      input_artifacts: [],
     }
 
     logMessage({
@@ -155,12 +155,12 @@ async function processSteps(data: any) {
       },
     )
 
-    if (taskResult.status !== 201) {
+    if (!taskResult) {
       logMessage({
         task_id: step.task_id,
         task_status: AgentExecutionStatus.Failed,
         level: 'error',
-        message: `Failed to create task on Youtube Summarizer external agent: ${taskResult.data}`,
+        message: `Failed to create task on Youtube Summarizer external agent: ${taskResult}`,
       })
       // Because we couldnt summarize the Youtube video on the external agent:
       // we UPDATE the Step to FAILED
@@ -168,7 +168,7 @@ async function processSteps(data: any) {
         ...step,
         step_status: AgentExecutionStatus.Failed,
         is_last: true,
-        output: `Error creating task on Youtube Summarizer external agent: ${JSON.stringify(taskResult.data)}`,
+        output: `Error creating task on Youtube Summarizer external agent: ${JSON.stringify(taskResult)}`,
       })
       return
     }
@@ -176,9 +176,9 @@ async function processSteps(data: any) {
     logMessage({
       task_id: step.task_id,
       level: 'info',
-      message: `Task on external agent created [${taskResult.data.task.task_id}] created: ${taskResult.data.task.input_query}`,
+      message: `Task on external agent created [${taskResult.data?.task.task_id}] created: ${taskResult.data?.task.input_query}`,
     })
-    logMessage({ task_id: step.task_id, level: 'debug', message: JSON.stringify(taskResult.data) })
+    logMessage({ task_id: step.task_id, level: 'debug', message: JSON.stringify(taskResult) })
 
   } else if (step.name === 'text2speech') {
     logMessage({
@@ -206,12 +206,12 @@ async function processSteps(data: any) {
       step_status: AgentExecutionStatus.Completed,
       is_last: true,
       output: `Text converted to audio: ${cid}`,
-      output_additional: 'success',
+      output_additional: {result: 'success'},
       output_artifacts: [IpfsHelper.cidToUrl(cid)],
       cost: 20,
     })
 
-    if (updateResult.status === 201)
+    if (updateResult.success)
       logMessage({
         task_id: step.task_id,
         task_status: AgentExecutionStatus.Completed,
@@ -244,9 +244,8 @@ async function validateExternalYoutubeSummarizerTask(taskId: string, parentStep:
     accessConfig,
   )
 
-  const youtubeData = youtubeTaskResult.data  
 
-  if (youtubeData.task.task_status === AgentExecutionStatus.Completed) {
+  if (youtubeTaskResult.task.task_status === AgentExecutionStatus.Completed) {
     logMessage({
       task_id: parentTaskId,
       level: 'info',
@@ -261,17 +260,17 @@ async function validateExternalYoutubeSummarizerTask(taskId: string, parentStep:
     await payments.query.updateStep(parentStep.did, {
       ...parentStep,
       step_status: AgentExecutionStatus.Completed,
-      output: youtubeData.task.output,
-      output_additional: youtubeData.task.output_additional,
-      output_artifacts: youtubeData.task.output_artifacts,
-      cost: Number(youtubeData.task.cost) + 5,
+      output: youtubeTaskResult.task.output,
+      output_additional: youtubeTaskResult.task.output_additional,
+      output_artifacts: youtubeTaskResult.task.output_artifacts,
+      cost: Number(youtubeTaskResult.task.cost) + 5,
     })
   } else {
     logMessage({
       task_id: parentTaskId,
       task_status: AgentExecutionStatus.Failed,
       level: 'error',
-      message: `${youtubeData.task.task_status} - Error creating task on Youtube Summarizer external agent`,
+      message: `${youtubeTaskResult.task.task_status} - Error creating task on Youtube Summarizer external agent`,
     })
 
     await payments.query.updateStep(parentStep.did, {
@@ -295,7 +294,7 @@ function logMessage(logMessage: TaskLogMessage) {
 async function main() {
   openaiTools = new OpenAITools(OPEN_API_KEY!)
   payments = getPaymentsInstance(NVM_API_KEY!, NVM_ENVIRONMENT)
-  accessConfig = await payments.getServiceAccessConfig(AGENT_YOUTUBE_DID)
+  accessConfig = await payments.query.getServiceAccessConfig(AGENT_YOUTUBE_DID)
   logger.info(`Connected to Nevermined Network: ${NVM_ENVIRONMENT}`)
 
   await payments.query.subscribe(processSteps, opts)
