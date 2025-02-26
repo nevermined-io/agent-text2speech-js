@@ -105,10 +105,10 @@
   resolved "https://registry.yarnpkg.com/@microsoft/tsdoc/-/tsdoc-0.14.2.tgz#c3ec604a0b54b9a9b87e9735dfc59e1a5da6a5fb"
   integrity sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==
 
-"@nevermined-io/payments@0.7.5":
-  version "0.7.5"
-  resolved "https://registry.yarnpkg.com/@nevermined-io/payments/-/payments-0.7.5.tgz#2cf3b4f682a6ae12e41d2cdda28d06ea5eac5b7c"
-  integrity sha512-thp7sM/uI0siq7QQFVgh3Yl8Ih3FRY6/UmvrbYAWzOoExITh2+v1FJe+Rd7j3onx9u7J6Q8ENw/LhZZ69ETbIQ==
+"@nevermined-io/payments@0.9.0-rc4":
+  version "0.9.0-rc4"
+  resolved "https://registry.yarnpkg.com/@nevermined-io/payments/-/payments-0.9.0-rc4.tgz#d0c006c5164690cf968616ed0161147cc730cc5d"
+  integrity sha512-91DvrG8gnnacPlEECANvGQJ21XM00wRwz2j95yzzIc1SkHxWPO2jxdvo9+jUZt9qb0o6uRrvpGigAAxKW4TpmQ==
   dependencies:
     axios "^1.7.7"
     jose "^5.2.4"
@@ -610,9 +610,9 @@ axe-core@^4.10.0:
   integrity sha512-qPC9o+kD8Tir0lzNGLeghbOrWMr3ZJpaRlCIb6Uobt/7N4FiEDvqUMnxzCHRHmg8vOg14kr5gVNyScRmbMaJ9g==
 
 axios@^1.7.7:
-  version "1.7.7"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.7.tgz#2f554296f9892a72ac8d8e4c5b79c14a91d0a47f"
-  integrity sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.9.tgz#d7d071380c132a24accda1b2cfc1535b79ec650a"
+  integrity sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw==
   dependencies:
     follow-redirects "^1.15.6"
     form-data "^4.0.0"
@@ -1909,9 +1909,9 @@ jju@~1.4.0:
   integrity sha512-8wb9Yw966OSxApiCt0K3yNJL8pnNeIv+OEq2YMidz4FKP6nonSRoOXc80iXY4JaN2FC11B9qsNmDsm+ZOfMROA==
 
 jose@^5.2.4:
-  version "5.9.6"
-  resolved "https://registry.yarnpkg.com/jose/-/jose-5.9.6.tgz#77f1f901d88ebdc405e57cce08d2a91f47521883"
-  integrity sha512-AMlnetc9+CV9asI19zHmrgS/WYsWUwCn2R7RzlbJWD7F9eWYUTGyBmU9o6PxngtLGOiDGPRu+Uc4fhKzbpteZQ==
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-5.10.0.tgz#c37346a099d6467c401351a9a0c2161e0f52c4be"
+  integrity sha512-s+3Al/p9g32Iq+oqXxkW//7jk2Vig6FF1CFqzVXoTUXt2qz89YWbL+OwS17NFYEvxC35n0FKeGO2LGYSxeM2Gg==
 
 joycon@^3.1.1:
   version "3.1.1"
